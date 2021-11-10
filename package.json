@@ -1,0 +1,22 @@
+{
+  "name": "week-10",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "carlsantiago"
+  },
+  "author": "Carl Santiago",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "fs": "0.0.1-security",
+    "inquirer": "^8.2.0",
+    "jest": "^27.3.1"
+  }
+}
