@@ -95,5 +95,5 @@ const askAgain = () => {
     })
 }
 
-console.log ("🏗️ Please build your team")
+console.log ("🔨 Please build your team")
 addEmployee("Manager")
