@@ -2,18 +2,26 @@ const inquirer = require ('inquirer');
 const fs = require ('fs');
 const axios = require('axios');
 const jest = require('jest');
+const generateHtml = require('./lib/generateHtml')
 
 const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
 
+var employeeArr = [];
 
 const addEmployee = (role) => {
 
     if(role === "I don't want to add any more team members"){
-        console.log("done")
+
+        fs.writeFile("./dist/index.html", generateHtml(employeeArr), function(err){
+            if (err){
+                throw err;
+            };
+        });
         return;
-    }
+    };
+
 
     inquirer
     .prompt([
@@ -54,15 +62,15 @@ const addEmployee = (role) => {
     .then(({name, id, email, officeNumber, github, school}) => {
         if(role === "Manager"){
             const manager = new Manager (name, id, email, officeNumber);
-            console.log(manager)
+            employeeArr.push(manager)
         }
         if(role === "Engineer"){
             const engineer = new Engineer (name, id, email, github);
-            console.log(engineer)
+            employeeArr.push(engineer)
         }
         if(role === "Intern"){
             const intern = new Intern (name, id, email, school);
-            console.log(intern)
+            employeeArr.push(intern)
         }
 
         askAgain();
@@ -70,6 +78,7 @@ const addEmployee = (role) => {
     })
 
 }
+
 
 const askAgain = () => {
     inquirer
@@ -86,5 +95,5 @@ const askAgain = () => {
     })
 }
 
-console.log ("Please build your team")
+console.log ("🏗️ Please build your team")
 addEmployee("Manager")
