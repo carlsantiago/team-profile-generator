@@ -1,6 +1,6 @@
 const inquirer = require ('inquirer');
 const fs = require ('fs');
-const axios = require('axios');
+const chalk = require('chalk');
 const jest = require('jest');
 const generateHtml = require('./lib/generateHtml')
 
@@ -9,6 +9,7 @@ const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
 
 var employeeArr = [];
+const error = chalk.bold.red;
 
 const addEmployee = (role) => {
 
@@ -19,6 +20,7 @@ const addEmployee = (role) => {
                 throw err;
             };
         });
+        console.log(chalk.white.bgGreen.bold("Team profile successfully created!"))
         return;
     };
 
@@ -28,23 +30,58 @@ const addEmployee = (role) => {
         {
             type: 'input',
             name: 'name',
-            message: `Who is the ${role} of this team? `
+            message: `Who is the ${role} of this team? `,
+            validate: input => {
+                if (!input) {
+                    console.log (error("Please enter the employee's name!"));
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         },
         {
             type: 'input',
             name: 'id',
-            message: `What is the ${role}'s ID? `
+            message: `What is the ${role}'s ID? `,
+            validate: input => {
+                if (isNaN(input) || !input) {
+                    console.log (error("Please enter a valid ID!"))
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         },
         {
             type: 'input',
             name: 'email',
-            message: `What is the ${role}'s email? `
+            message: `What is the ${role}'s email? `,
+            validate: input => {
+                valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)
+                if (valid) {
+                    return true;
+                } else {
+                    console.log (error("Please enter a valid email!"));
+                    return false;
+                }
+            },
+            
+            
         },
         {
             type: 'input',
             name: 'officeNumber',
             message: `What is the ${role}'s office number? `,
             when: () => role === 'Manager',
+            validate: input => {
+                if (isNaN(input) || !input) {
+                    console.log (error("Please enter a valid office number!"))
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         },
         {
             type: 'input',
@@ -95,5 +132,5 @@ const askAgain = () => {
     })
 }
 
-console.log ("🔨 Please build your team")
+console.log (chalk.white.bgBlue.bold("Please build your team"));
 addEmployee("Manager")
